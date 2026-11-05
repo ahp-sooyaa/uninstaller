@@ -1,0 +1,53 @@
+name: Uninstaller
+options:
+  bundleIdPrefix: com.aunghtet
+  deploymentTarget:
+    macOS: "14.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    CODE_SIGN_STYLE: Manual
+    CODE_SIGN_IDENTITY: "-"
+    DEVELOPMENT_TEAM: ""
+targets:
+  Uninstaller:
+    type: application
+    platform: macOS
+    sources: [Uninstaller]
+    dependencies:
+      - target: FinderExtension
+        embed: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.aunghtet.Uninstaller
+        ENABLE_HARDENED_RUNTIME: NO
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+    info:
+      path: Uninstaller/Info.plist
+      properties:
+        CFBundleDisplayName: Uninstaller
+        LSApplicationCategoryType: public.app-category.utilities
+        CFBundleURLTypes:
+          - CFBundleURLName: com.aunghtet.Uninstaller
+            CFBundleURLSchemes: [uninstaller-app]
+  FinderExtension:
+    type: app-extension
+    platform: macOS
+    sources: [FinderExtension]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.aunghtet.Uninstaller.FinderExtension
+        ENABLE_HARDENED_RUNTIME: NO
+    entitlements:
+      path: FinderExtension/FinderExtension.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+    info:
+      path: FinderExtension/Info.plist
+      properties:
+        CFBundleDisplayName: Uninstaller
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.FinderSync
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).FinderSync
